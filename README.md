@@ -12,9 +12,9 @@ The Appointment Scheduler App is a Flutter-based mobile application that allows 
 ## Screenshots
 
 ![Screenshot 1](/screenshots/screenshots1.jpg)
-![Screenshot 2](/screenshots/screenshot2.jpg)
-![Screenshot 3](/screenshots/screenshot3.jpg)
-![Screenshot 4](/screenshots/screenshot3.jpg)
+![Screenshot 2](/screenshots/screenshots2.jpg)
+![Screenshot 3](/screenshots/screenshots3.jpg)
+![Screenshot 4](/screenshots/screenshots4.jpg)
 
 ## Installation
 
@@ -24,15 +24,15 @@ git clone <https://github.com/ahmedalgzery/Appointment-Scheduler-App.git>
 
 2. Change to the project directory:
 
-    cd appointment_scheduler_app
+[Space] cd appointment_scheduler_app
 
 3. Install the dependencies:
 
-flutter pub get
+[Space]flutter pub get
 
 4. Run the app:
 
-flutter run
+[Space]flutter run
 
 ## Dependencies
 
