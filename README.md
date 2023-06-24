@@ -11,10 +11,10 @@ The Appointment Scheduler App is a Flutter-based mobile application that allows 
 
 ## Screenshots
 
-![Screenshot 1](screenshots/screenshot1.jpg)
-![Screenshot 2](screenshots/screenshot2.jpg)
-![Screenshot 3](screenshots/screenshot3.jpg)
-![Screenshot 4](screenshots/screenshot3.jpg)
+![Screenshot 1](/screenshots/screenshots1.jpg)
+![Screenshot 2](/screenshots/screenshot2.jpg)
+![Screenshot 3](/screenshots/screenshot3.jpg)
+![Screenshot 4](/screenshots/screenshot3.jpg)
 
 ## Installation
 
