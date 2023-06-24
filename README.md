@@ -24,15 +24,15 @@ git clone <https://github.com/ahmedalgzery/Appointment-Scheduler-App.git>
 
 2. Change to the project directory:
 
-[Space] cd appointment_scheduler_app
+ cd appointment_scheduler_app
 
 3. Install the dependencies:
 
-[Space]flutter pub get
+flutter pub get
 
 4. Run the app:
 
-[Space]flutter run
+flutter run
 
 ## Dependencies
 
