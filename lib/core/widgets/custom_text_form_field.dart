@@ -11,12 +11,14 @@ class CustomTextField extends StatelessWidget {
     required this.onTap,
     required this.controller,
   }) : super(key: key);
+
   final String hintText;
   final int maxLines;
   final void Function(String?)? onSaved;
   final Function(String)? onChanged;
   final VoidCallback onTap;
   final TextEditingController controller;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -26,7 +28,7 @@ class CustomTextField extends StatelessWidget {
       onSaved: onSaved,
       validator: (value) {
         if (value?.isEmpty ?? true) {
-          return 'Field is requierd';
+          return 'Field is required';
         } else {
           return null;
         }
@@ -41,7 +43,7 @@ class CustomTextField extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder buildBorder([color]) {
+  OutlineInputBorder buildBorder([Color? color]) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
       borderSide: BorderSide(

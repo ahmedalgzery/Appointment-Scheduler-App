@@ -1,5 +1,8 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// This is the main entry point of the Flutter application.
+// It initializes Flutter and Firebase, configures the application's theme,
+// and sets the home view to display a splash screen.
 
+// Importing required packages and files
 import 'package:appointment/features/splash/presentation/views/splash_view.dart';
 import 'package:appointment/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';

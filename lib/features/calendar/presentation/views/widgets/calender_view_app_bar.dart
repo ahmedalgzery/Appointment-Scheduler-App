@@ -1,15 +1,18 @@
 import 'package:appointment/features/dashboard/presentation/views/dashboard_view.dart';
 import 'package:flutter/material.dart';
 
-class CalenderViewAppBar extends StatelessWidget {
-  const CalenderViewAppBar({super.key});
+// This widget represents the app bar of the CalendarView.
+// It displays the title "Calendar" and an IconButton to navigate to the DashboardView.
+
+class CalendarViewAppBar extends StatelessWidget {
+  const CalendarViewAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
       title: const Text(
-        "Calender",
+        "Calendar",
       ),
       actions: [
         IconButton(

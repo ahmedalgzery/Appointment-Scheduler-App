@@ -5,11 +5,11 @@ class Meeting {
     this.eventName,
     this.from,
     this.to,
-    this.background,
+    {this.background =Colors.purple,}
   );
 
   String eventName;
-  String from;
-  String to;
+  DateTime  from;
+  DateTime  to;
   Color background;
 }

@@ -1,16 +1,32 @@
-  // ignore_for_file: use_build_context_synchronously
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-  import 'package:flutter/material.dart';
+// Function to show a time picker dialog and handle the selected time
+Future<void> selectTime({
+  required BuildContext context,
+  required TextEditingController controller,
+}) async {
+  final TimeOfDay? pickedTime = await showTimePicker(
+    context: context,
+    initialTime: TimeOfDay.now(),
+  );
 
-Future<void> selectTime({required BuildContext context,required TextEditingController controller }) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
+  if (pickedTime != null) {
+    // Create a DateTime object with the selected time and the current date
+    DateTime now = DateTime.now();
+    DateTime selectedDateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      pickedTime.hour,
+      pickedTime.minute,
+      0,
     );
 
-    if (pickedTime != null) {
-      // Format the picked time as per your requirement
-      String formattedTime = pickedTime.format(context);
-      controller.text = formattedTime ;
-    }
+    // Format the selected time as "hh:mm:ss"
+    String formattedTime = DateFormat('HH:mm:ss').format(selectedDateTime);
+
+    // Set the formatted time to the provided text controller
+    controller.text = formattedTime;
   }
+}

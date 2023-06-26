@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// This widget represents a text that slides into view using an animation.
+
 class SlidingText extends StatelessWidget {
   const SlidingText({
     super.key,

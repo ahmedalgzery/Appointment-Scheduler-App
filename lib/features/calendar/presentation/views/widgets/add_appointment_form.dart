@@ -1,24 +1,29 @@
 import 'package:appointment/core/utils/functions/select_time.dart';
-import 'package:appointment/core/utils/utils.dart';
+import 'package:appointment/core/utils/service.dart';
 import 'package:appointment/core/widgets/custom_button.dart';
 import 'package:appointment/core/widgets/custom_text_form_field.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:appointment/features/calendar/data/data.dart';
 import 'package:flutter/material.dart';
+
+// This widget represents the form for adding an appointment.
+// It includes text fields for the subject, start time, and end time.
+// The user can select the start and end times using the selectTime function.
+// When the user taps the "Save" button, the appointment data is saved to Firebase and the form is dismissed.
 
 class AddAppointmentForm extends StatefulWidget {
   const AddAppointmentForm({
     super.key,
+    required this.date,
   });
-
+  final CalenderData date;
   @override
   State<AddAppointmentForm> createState() => _AddAppointmentFormState();
 }
 
 class _AddAppointmentFormState extends State<AddAppointmentForm> {
   final GlobalKey<FormState> globalKey = GlobalKey();
-  final fireStore = FirebaseFirestore.instance.collection('Appointment');
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  String? startTime, endTime, subject;
+  late String subject, startTime, endTime;
   bool loading = false;
   final TextEditingController startTimeController = TextEditingController();
   final TextEditingController endTimeController = TextEditingController();
@@ -37,7 +42,7 @@ class _AddAppointmentFormState extends State<AddAppointmentForm> {
             maxLines: 4,
             hintText: 'Subject',
             onSaved: (value) {
-              subject = value;
+              subject = value!;
             },
             onTap: () {},
             controller: subjectController,
@@ -49,12 +54,12 @@ class _AddAppointmentFormState extends State<AddAppointmentForm> {
             hintText: 'Start Time',
             maxLines: 1,
             onSaved: (value) {
-              startTime = value;
+              startTime = value!;
             },
             onTap: () async {
               // Call the selectTime function to choose the start time
               selectTime(context: context, controller: startTimeController);
-              startTime = startTimeController.text;
+              startTime = startTimeController.text.toString();
             },
             controller: startTimeController,
           ),
@@ -62,12 +67,12 @@ class _AddAppointmentFormState extends State<AddAppointmentForm> {
             hintText: 'End Time',
             maxLines: 1,
             onSaved: (value) {
-              endTime = value;
+              endTime = value!;
             },
             onTap: () {
               // Call the selectTime function to choose the end time
               selectTime(context: context, controller: endTimeController);
-              endTime = endTimeController.text;
+              endTime = endTimeController.text.toString();
             },
             controller: endTimeController,
           ),
@@ -82,22 +87,16 @@ class _AddAppointmentFormState extends State<AddAppointmentForm> {
                 setState(() {
                   loading = true;
                 });
-                String id = DateTime.now().microsecondsSinceEpoch.toString();
-                fireStore.doc(id).set({
-                  'id': id,
-                  'Subject': subject,
-                  'StartTime': startTime,
-                  'EndTime': endTime,
-                }).then((value) {
-                  Utils().tostMessage(message: 'Appointment added');
-                  setState(() {
-                    loading = false;
-                  });
-                }).onError((error, stackTrace) {
-                  setState(() {
-                    loading = false;
-                  });
-                  Utils().tostMessage(message: error.toString());
+
+                FirebaseService().addToFirebase(
+                    endTime: '${widget.date.endDate} $endTime',
+                    startTime: '${widget.date.startDate} $startTime',
+                    subject: subject);
+
+                FirebaseService().fetchDataFromFirestore();
+                Navigator.pop(context);
+                setState(() {
+                  loading = false;
                 });
               } else {
                 autovalidateMode = AutovalidateMode.always;

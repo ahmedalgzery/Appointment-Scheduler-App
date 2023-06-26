@@ -1,16 +1,23 @@
-import 'package:appointment/core/utils/functions/get_appointment.dart';
 import 'package:appointment/core/utils/meeting_data_source.dart';
+import 'package:appointment/core/utils/service.dart';
 import 'package:appointment/features/calendar/data/data.dart';
+import 'package:appointment/features/calendar/presentation/view_model/meeting_model.dart';
 import 'package:appointment/features/calendar/presentation/views/widgets/add_appointment_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class CalenderViewBody extends StatelessWidget {
-  const CalenderViewBody({super.key});
+// This widget represents the body of the CalendarView.
+// It fetches data from Firestore, displays a loading indicator while fetching,
+// handles errors if any, and renders the calendar with the retrieved data.
+
+class CalendarViewBody extends StatelessWidget {
+  const CalendarViewBody({super.key});
 
   // Function to fetch data from Firestore
   Future<List<Map<String, dynamic>>> _getData() async {
-    List<Map<String, dynamic>> dataList = await fetchDataFromFirestore();
+    List<Map<String, dynamic>> dataList =
+        await FirebaseService().fetchDataFromFirestore();
     return dataList;
   }
 
@@ -30,11 +37,24 @@ class CalenderViewBody extends StatelessWidget {
           } else {
             // Data fetching is complete, retrieve the dataList
             List<Map<String, dynamic>> dataList = snapshot.data!;
-            
+
             // Use the dataList for further processing or display
-            
+            List<Meeting> meetings = [];
+
+            for (var data in dataList) {
+              meetings.add(Meeting(
+                data['Subject'],
+                DateTime.parse(data['StartTime']),
+                DateTime.parse(data['EndTime']),
+              ));
+            }
             return SfCalendar(
-              onTap: (calendarTapDetails) {
+              onLongPress: (CalendarLongPressDetails details) {
+                CalenderData  myCalendar = CalenderData(
+                  endDate: DateFormat('yyyy-MM-dd').format(details.date!),
+                  startDate: DateFormat('yyyy-MM-dd').format(details.date!),
+                );
+
                 // Show a modal bottom sheet when the calendar is tapped
                 showModalBottomSheet(
                   isScrollControlled: true,
@@ -42,7 +62,7 @@ class CalenderViewBody extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   context: context,
-                  builder: (context) => const AddAppointmentBottomSheet(),
+                  builder: (context) => AddAppointmentBottomSheet(date: myCalendar),
                 );
               },
               view: CalendarView.month,
@@ -51,13 +71,7 @@ class CalenderViewBody extends StatelessWidget {
                 appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
                 appointmentDisplayCount: 3,
               ),
-              dataSource: MeetingDataSource(
-                getDataSource(
-                  endTime: dataList[0]['Subject'],
-                  startTime: dataList[0]['StartTime'],
-                  subject: dataList[0]['EndTime'],
-                ),
-              ),
+              dataSource: MeetingDataSource(meetings),
             );
           }
         },

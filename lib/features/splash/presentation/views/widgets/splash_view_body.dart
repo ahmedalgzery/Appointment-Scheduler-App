@@ -1,8 +1,11 @@
 import 'package:appointment/core/utils/assets.dart';
-import 'package:appointment/features/calendar/data/data.dart';
+import 'package:appointment/core/utils/service.dart';
 import 'package:appointment/features/dashboard/presentation/views/dashboard_view.dart';
 import 'package:appointment/features/splash/presentation/views/widgets/sliding_text.dart';
 import 'package:flutter/material.dart';
+
+// This widget represents the body of the splash view.
+// It displays the app logo image and a sliding text widget.
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -19,13 +22,13 @@ class _SplashViewBodyState extends State<SplashViewBody>
   @override
   void initState() {
     super.initState();
-    
+
     // Fetching data from Firestore
-    fetchDataFromFirestore();
-    
+    FirebaseService().fetchDataFromFirestore();
+
     // Initializing the sliding animation
     initSlidingAnimation();
-    
+
     // Navigating to the home view after a delay
     navigateToHome();
   }
@@ -33,7 +36,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
   @override
   void dispose() {
     super.dispose();
-    
+
     // Disposing the animation controller
     animationController.dispose();
   }
@@ -49,7 +52,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
         const SizedBox(
           height: 4,
         ),
-        
+
         // Displaying the sliding text widget with the sliding animation
         SlidingText(slidingAnimation: slidingAnimation),
       ],
